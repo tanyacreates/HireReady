@@ -12,7 +12,7 @@ import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 import SharedReport from './pages/SharedReport'
 import { getRedirectResult } from 'firebase/auth'
-import { auth, provider } from './utils/firebase'
+import { auth } from './utils/firebase'
 
 export const ServerUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:8000"
 
@@ -21,30 +21,32 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    // Handle Google redirect result (fires after signInWithRedirect)
-    getRedirectResult(auth).then(async (result) => {
-      if (result) {
-        const name = result.user.displayName
-        const email = result.user.email
-        const res = await axios.post(ServerUrl + "/api/auth/google", { name, email }, { withCredentials: true })
-        dispatch(setUserData(res.data))
-      }
-    }).catch((err) => {
-      console.log("Redirect auth error:", err)
-    })
-
-    // Check existing session
-    const getUser = async () => {
+    const initAuth = async () => {
       try {
-        const result = await axios.get(ServerUrl + "/api/user/current-user", {withCredentials:true})
+        // Step 1: Check if returning from Google redirect
+        const result = await getRedirectResult(auth)
+        if (result) {
+          // User just signed in via Google redirect — send to our backend
+          const name = result.user.displayName
+          const email = result.user.email
+          const res = await axios.post(ServerUrl + "/api/auth/google", { name, email }, { withCredentials: true })
+          dispatch(setUserData(res.data))
+          return // Done — don't run getUser below
+        }
+      } catch (err) {
+        console.log("Redirect result error:", err)
+      }
+
+      // Step 2: No redirect result — check existing session cookie
+      try {
+        const result = await axios.get(ServerUrl + "/api/user/current-user", { withCredentials: true })
         dispatch(setUserData(result.data))
       } catch (error) {
-        console.log(error)
         dispatch(setUserData(null))
       }
     }
-    getUser()
 
+    initAuth()
   },[dispatch])
 
   return (
