@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BsRobot } from "react-icons/bs";
 import { IoSparkles } from "react-icons/io5";
 import { motion } from "motion/react"
 import { FcGoogle } from "react-icons/fc";
-import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../utils/firebase';
 import axios from 'axios';
 import { ServerUrl } from '../App';
@@ -13,23 +13,13 @@ import { setUserData } from '../redux/userSlice';
 function Auth({isModel = false}) {
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        getRedirectResult(auth).then(async (result) => {
-            if (!result) return;
-            const User = result.user;
-            const name = User.displayName;
-            const email = User.email;
-            const res = await axios.post(ServerUrl + "/api/auth/google", { name, email }, { withCredentials: true });
-            dispatch(setUserData(res.data));
-        }).catch((error) => {
-            console.log(error);
-            dispatch(setUserData(null));
-        });
-    }, []);
-
     const handleGoogleAuth = async () => {
         try {
-            await signInWithRedirect(auth, provider);
+            const response = await signInWithPopup(auth, provider)
+            const name = response.user.displayName
+            const email = response.user.email
+            const result = await axios.post(ServerUrl + "/api/auth/google", { name, email }, { withCredentials: true })
+            dispatch(setUserData(result.data))
         } catch (error) {
             console.log(error)
             dispatch(setUserData(null))
@@ -74,7 +64,7 @@ function Auth({isModel = false}) {
             onClick={handleGoogleAuth}
             whileHover={{opacity:0.9 , scale:1.03}}
             whileTap={{opacity:1 , scale:0.98}}
-            className='w-full flex items-center justify-center gap-3 py-3 bg-black text-white rounded-full shadow-md '>
+            className='w-full flex items-center justify-center gap-3 py-3 bg-black text-white rounded-full shadow-md'>
                 <FcGoogle size={20}/>
                 Continue with Google
             </motion.button>

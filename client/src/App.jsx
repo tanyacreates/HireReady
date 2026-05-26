@@ -11,8 +11,6 @@ import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 import SharedReport from './pages/SharedReport'
-import { getRedirectResult } from 'firebase/auth'
-import { auth } from './utils/firebase'
 
 export const ServerUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:8000"
 
@@ -21,23 +19,7 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    const initAuth = async () => {
-      try {
-        // Step 1: Check if returning from Google redirect
-        const result = await getRedirectResult(auth)
-        if (result) {
-          // User just signed in via Google redirect — send to our backend
-          const name = result.user.displayName
-          const email = result.user.email
-          const res = await axios.post(ServerUrl + "/api/auth/google", { name, email }, { withCredentials: true })
-          dispatch(setUserData(res.data))
-          return // Done — don't run getUser below
-        }
-      } catch (err) {
-        console.log("Redirect result error:", err)
-      }
-
-      // Step 2: No redirect result — check existing session cookie
+    const getUser = async () => {
       try {
         const result = await axios.get(ServerUrl + "/api/user/current-user", { withCredentials: true })
         dispatch(setUserData(result.data))
@@ -45,8 +27,7 @@ function App() {
         dispatch(setUserData(null))
       }
     }
-
-    initAuth()
+    getUser()
   },[dispatch])
 
   return (
