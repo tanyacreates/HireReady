@@ -69,7 +69,9 @@ function Step1SetUp({ onStart }) {
            onStart(result.data)
 
         } catch (error) {
-            console.log(error)
+            const message = error.response?.data?.message || "Something went wrong. Please try again."
+            console.log(message, error)
+            alert(message)
             setLoading(false)
         }
     }
