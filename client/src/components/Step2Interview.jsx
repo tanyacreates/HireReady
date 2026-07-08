@@ -1,6 +1,6 @@
 import React from 'react'
-import maleVideo from "../assets/videos/male-ai.mp4"
-import femaleVideo from "../assets/videos/female-ai.mp4"
+const maleVideo = "/assets/videos/male-ai.mp4"
+const femaleVideo = "/assets/videos/female-ai.mp4"
 import Timer from './Timer'
 import { motion } from "motion/react"
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";

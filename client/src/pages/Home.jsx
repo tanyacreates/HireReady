@@ -13,96 +13,110 @@ import { HiSparkles } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthModel from '../components/AuthModel';
-import hrImg from "../assets/HR.png";
-import techImg from "../assets/tech.png";
-import confidenceImg from "../assets/confi.png";
-import creditImg from "../assets/credit.png";
-import evalImg from "../assets/ai-ans.png";
-import resumeImg from "../assets/resume.png";
-import pdfImg from "../assets/pdf.png";
-import analyticsImg from "../assets/history.png";
+const hrImg = "/assets/HR.png";
+const techImg = "/assets/tech.png";
+const confidenceImg = "/assets/confi.png";
+const creditImg = "/assets/credit.png";
+const evalImg = "/assets/ai-ans.png";
+const resumeImg = "/assets/resume.png";
+const pdfImg = "/assets/pdf.png";
+const analyticsImg = "/assets/history.png";
 import Footer from '../components/Footer';
+import SmoothWave from '../components/SmoothWave';
 
 
 function Home() {
   const { userData } = useSelector((state) => state.user)
   const [showAuth, setShowAuth] = useState(false);
+  const [chatInput, setChatInput] = useState('');
   const navigate = useNavigate()
+
+  const handleChatSubmit = () => {
+    if (!chatInput.trim()) return;
+    if (!userData) {
+      setShowAuth(true);
+      return;
+    }
+    navigate('/interview', { state: { initialPrompt: chatInput } });
+  };
   return (
-    <div className='min-h-screen bg-[#f3f3f3] flex flex-col'>
+    <div className='min-h-screen bg-white flex flex-col font-sans antialiased text-black'>
+      {/* Announcement Banner */}
+      <div className='w-full bg-[#F2F0EF] border-b border-gray-100 py-2.5 px-4 text-center text-xs md:text-sm text-gray-600 font-light flex items-center justify-center gap-1.5'>
+        <span>Practice role-based mock interviews with AI.</span>
+        <a href="#start" className='font-normal underline hover:text-black transition inline-flex items-center gap-0.5'>
+          Start practicing for free <span className='text-xs'>→</span>
+        </a>
+      </div>
+
       <Navbar />
 
-      <div className='flex-1 px-6 py-20'>
+      {/* Hero Text Section */}
+      <div className='w-full px-6 pt-16 pb-4'>
+        <div className='max-w-6xl mx-auto text-center mt-6'>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className='font-serif font-normal text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[1.08] text-black max-w-4xl mx-auto mb-6'>
+            A dedicated guide <br />
+            for every interview
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className='text-gray-600 mt-6 max-w-xl mx-auto text-base md:text-lg font-light tracking-normal leading-relaxed mb-8'>
+            AI agents conducting tailored mock interviews & evaluation 24/7
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className='flex flex-wrap justify-center gap-3 mt-8'>
+            <motion.button
+              onClick={() => {
+                if (!userData) {
+                  setShowAuth(true)
+                  return;
+                }
+                navigate("/interview")
+              }}
+              whileHover={{ opacity: 0.9, scale: 1.02 }}
+              whileTap={{ opacity: 1, scale: 0.98 }}
+              id="start"
+              className='bg-black text-white px-6 py-2.5 rounded-full hover:opacity-90 transition font-medium text-sm flex items-center gap-2 shadow-sm cursor-pointer'>
+              <HiSparkles size={14} />
+              Start Interview
+            </motion.button>
+
+            <motion.button
+              onClick={() => {
+                if (!userData) {
+                  setShowAuth(true)
+                  return;
+                }
+                navigate("/history")
+              }}
+              whileHover={{ opacity: 0.9, scale: 1.02 }}
+              whileTap={{ opacity: 1, scale: 0.98 }}
+              className='bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2.5 rounded-full transition font-medium text-sm cursor-pointer'>
+              {userData ? "View History" : "Try for free"}
+            </motion.button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Full-width Smooth Wave Ribbon Animation */}
+      <div className='w-full h-[220px] md:h-[300px] relative overflow-hidden flex items-center justify-center -mt-14 mb-8'>
+        <SmoothWave />
+      </div>
+
+      {/* Remaining Page Content */}
+      <div className='flex-1 w-full px-6 pb-20'>
         <div className='max-w-6xl mx-auto'>
-
-          <div className='flex justify-center mb-6'>
-            <div className='bg-gray-100 text-gray-500 text-sm px-4 py-2 rounded-full flex items-center gap-2'>
-              <HiSparkles size={16} className="bg-indigo-50 text-indigo-600" />
-              AI Powered Smart Interview Platform
-            </div>
-
-
-          </div>
-          <div className='text-center mb-28'>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className='text-4xl md:text-6xl font-semibold leading-tight max-w-4xl mx-auto'>
-              Practice Interviews with
-              <span className='relative inline-block'>
-                <span className='bg-indigo-50 text-indigo-600 px-5 py-1 rounded-full'>
-                  AI Intelligence
-
-                </span>
-              </span>
-
-
-
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className='text-gray-500 mt-6 max-w-2xl mx-auto text-lg'>
-              Role-based mock interviews with smart follow-ups,
-              adaptive difficulty and real-time performance evaluation.
-
-            </motion.p>
-
-            <div className='flex flex-wrap justify-center gap-4 mt-10'>
-              <motion.button
-                onClick={() => {
-                  if (!userData) {
-                    setShowAuth(true)
-                    return;
-                  }
-                  navigate("/interview")
-                }}
-                whileHover={{ opacity: 0.9, scale: 1.03 }}
-                whileTap={{ opacity: 1, scale: 0.98 }}
-                className='bg-black text-white px-10 py-3 rounded-full hover:opacity-90 transition shadow-md'>
-                Start Interview
-
-              </motion.button>
-
-              <motion.button
-                onClick={() => {
-                  if (!userData) {
-                    setShowAuth(true)
-                    return;
-                  }
-                  navigate("/history")
-                }}
-                whileHover={{ opacity: 0.9, scale: 1.03 }}
-                whileTap={{ opacity: 1, scale: 0.98 }}
-                className='border border-gray-300 px-10 py-3 rounded-full hover:bg-gray-100 transition'>
-                View History
-
-              </motion.button>
-            </div>
-          </div>
 
           <div className='flex flex-col md:flex-row justify-center items-center gap-10 mb-28'>
             {
@@ -306,7 +320,31 @@ function Home() {
 
       {showAuth && <AuthModel onClose={() => setShowAuth(false)} />}
 
-        <Footer/>
+      <Footer/>
+
+      {/* Floating Chat Bar */}
+      <div className='fixed bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-white/85 backdrop-blur-md border border-gray-200/80 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.08)] px-2 py-1.5 flex items-center gap-2 z-50 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-gray-300/80'>
+        <input 
+          type="text" 
+          value={chatInput}
+          onChange={(e) => setChatInput(e.target.value)}
+          placeholder="Ask me anything..." 
+          className='flex-1 pl-4 pr-2 py-2.5 text-sm text-gray-800 placeholder-gray-400 bg-transparent outline-hidden'
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleChatSubmit();
+            }
+          }}
+        />
+        <button 
+          onClick={handleChatSubmit}
+          className='w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition cursor-pointer active:scale-95'
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+          </svg>
+        </button>
+      </div>
 
     </div>
   )

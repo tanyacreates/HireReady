@@ -11,12 +11,28 @@ import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 import SharedReport from './pages/SharedReport'
+import Lenis from 'lenis'
 
 export const ServerUrl = (import.meta.env.VITE_SERVER_URL || "http://localhost:8000").replace(/\/+$/, "")
 
 function App() {
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const lenis = new Lenis()
+
+    function raf(time) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
+  }, [])
 
   useEffect(()=>{
     const getUser = async () => {
