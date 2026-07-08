@@ -12,7 +12,7 @@ import paymentRouter from "./routes/payment.route.js"
 const app = express()
 const allowedOrigins = [
     "http://localhost:5173",
-    process.env.CLIENT_URL,
+    process.env.CLIENT_URL?.replace(/\/+$/, ""), // tolerate trailing slash in env var
 ].filter(Boolean);
 
 app.use(cors({
