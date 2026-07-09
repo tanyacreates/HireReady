@@ -15,9 +15,6 @@ function CookiePolicy() {
         <div className='max-w-3xl mx-auto'>
           {/* Header */}
           <div className='mb-12'>
-            <span className='text-[10px] font-semibold text-indigo-600 uppercase tracking-widest bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full shadow-2xs'>
-              Legal Documents
-            </span>
             <h1 className='font-serif text-4xl md:text-5xl lg:text-6xl text-black tracking-tight leading-tight mt-4 mb-4'>
               Cookie Policy
             </h1>

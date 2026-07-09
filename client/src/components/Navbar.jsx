@@ -14,6 +14,7 @@ function Navbar() {
     const {userData} = useSelector((state)=>state.user)
     const [showCreditPopup,setShowCreditPopup] = useState(false)
     const [showUserPopup,setShowUserPopup] = useState(false)
+    const [showResourcesDropdown, setShowResourcesDropdown] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [showAuth, setShowAuth] = useState(false);
@@ -24,6 +25,7 @@ function Navbar() {
             dispatch(setUserData(null))
             setShowCreditPopup(false)
             setShowUserPopup(false)
+            setShowResourcesDropdown(false)
             navigate("/")
 
         } catch (error) {
@@ -42,18 +44,63 @@ function Navbar() {
 
             <div className='flex items-center gap-6 font-sans text-sm font-medium text-gray-700'>
                 {/* Resources dropdown */}
-                <div className='hidden md:flex items-center gap-1 cursor-pointer text-gray-500 hover:text-black transition'>
-                    Resources
-                    <svg className="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                <div className='relative'>
+                    <button 
+                        onClick={() => {
+                            setShowResourcesDropdown(!showResourcesDropdown);
+                            setShowUserPopup(false);
+                            setShowCreditPopup(false);
+                        }} 
+                        className='hidden md:flex items-center gap-1 cursor-pointer text-gray-500 hover:text-black transition font-medium focus:outline-hidden border-none bg-transparent'
+                    >
+                        Resources
+                        <svg className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${showResourcesDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    {showResourcesDropdown && (
+                        <div className='absolute left-0 mt-3 w-40 bg-white shadow-xl border border-gray-100 rounded-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200'>
+                            <button 
+                                onClick={() => {
+                                    setShowResourcesDropdown(false);
+                                    navigate("/pricing");
+                                }} 
+                                className='w-full text-left px-4 py-2 text-xs md:text-sm text-gray-600 hover:text-black hover:bg-gray-50 transition cursor-pointer font-medium border-none bg-transparent'
+                            >
+                                Pricing
+                            </button>
+                            <a 
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setShowResourcesDropdown(false);
+                                }}
+                                className='block w-full text-left px-4 py-2 text-xs md:text-sm text-gray-600 hover:text-black hover:bg-gray-50 transition font-medium'
+                            >
+                                Docs
+                            </a>
+                            <a 
+                                href="#footer"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setShowResourcesDropdown(false);
+                                    document.querySelector('footer')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className='block w-full text-left px-4 py-2 text-xs md:text-sm text-gray-600 hover:text-black hover:bg-gray-50 transition font-medium'
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    )}
                 </div>
 
                 {userData ? (
                     <div className='flex items-center gap-4 relative'>
                         <button onClick={()=>{
                             setShowCreditPopup(!showCreditPopup);
-                            setShowUserPopup(false)
+                            setShowUserPopup(false);
+                            setShowResourcesDropdown(false);
                         }} className='flex items-center gap-2 bg-gray-50 border border-gray-100 px-4 py-1.5 rounded-full hover:bg-gray-100 transition text-gray-700 text-xs font-medium'>
                             <BsCoin size={14} className="text-amber-500" />
                             {userData?.credits || 0} Credits
@@ -63,7 +110,8 @@ function Navbar() {
                             <button
                             onClick={()=>{
                                 setShowUserPopup(!showUserPopup);
-                                setShowCreditPopup(false)
+                                setShowCreditPopup(false);
+                                setShowResourcesDropdown(false);
                             }} className='w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-semibold text-xs cursor-pointer hover:opacity-90 transition'>
                                 {userData?.name.slice(0, 1).toUpperCase()}
                             </button>

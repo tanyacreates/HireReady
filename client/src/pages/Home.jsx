@@ -35,6 +35,65 @@ function Home() {
     { sender: 'bot', text: 'How can I help you with HireReady today?' }
   ]);
   const navigate = useNavigate()
+  const [activeResumeTab, setActiveResumeTab] = useState(1);
+  const [activeEvaluatorTab, setActiveEvaluatorTab] = useState(1);
+
+  const evaluatorTabs = [
+    {
+      number: "01",
+      title: "Runs mock sessions",
+      description: "Guides you through standard coding and behavioral assessments.",
+      candidateResponse: "Let's optimize the time complexity. We can use a hash map to reduce lookups from O(N) to O(1), making the overall run time O(N) instead of O(N^2).",
+      status: "Analyzing complexity..."
+    },
+    {
+      number: "02",
+      title: "Gathers evaluation signals",
+      description: "Captures key signals, logic weaknesses, and improvement goals directly from your response.",
+      candidateResponse: "\"To reverse a linked list, we keep three pointers: prev, curr, and next. In each step, we save curr.next, point curr.next to prev, and advance pointers...\"",
+      status: "Evaluating logic accuracy..."
+    },
+    {
+      number: "03",
+      title: "Turns sessions into offers",
+      description: "Nudges you to target correct topics and build structural confidence.",
+      candidateResponse: "I've solved database scaling bottlenecks, leading to 40% reduction in API response times by introducing caching layers.",
+      status: "Calculating readiness scoring..."
+    }
+  ];
+
+  const resumeTabs = [
+    {
+      number: "01",
+      title: "Knows your background inside out",
+      description: "Fully understands your stack, experience level, and project architecture.",
+      file: "resume_experience.pdf",
+      cursorPos: "top-[32%] left-[24%]",
+      question: "How do my React and Node.js skills compare to typical Senior Roles?",
+      answer: "Your stack matches 92% of senior requirements. We suggest polishing system design patterns.",
+      progress: "w-4/5"
+    },
+    {
+      number: "02",
+      title: "Navigates directly inside your resume",
+      description: "Audits your background and generates targeted interview questions for your projects.",
+      file: "resume_audit.pdf",
+      cursorPos: "top-[40%] left-[30%]",
+      question: "How do I highlight my system design experience?",
+      answer: "First, add metrics on database scalability.",
+      progress: "w-2/5"
+    },
+    {
+      number: "03",
+      title: "Helps candidates reach their goals",
+      description: "Aligns mock rounds with specific job descriptions and company cultures.",
+      file: "target_role.pdf",
+      cursorPos: "top-[52%] left-[42%]",
+      question: "Can I practice behaviorals tailored for Netflix's culture?",
+      answer: "Absolutely. I've aligned our grading rubric with Netflix's Freedom & Responsibility docs.",
+      progress: "w-5/6"
+    }
+  ];
 
   const testimonials = [
     {
@@ -387,16 +446,55 @@ function Home() {
                   className='absolute inset-0 w-full h-full object-cover z-0 select-none pointer-events-none'
                 />
 
-                {/* Floating Response Message Bubble (Simulating handhold.io visitor/lead questions) */}
-                <div className='relative z-10 w-full max-w-sm flex flex-col gap-3'>
-                  <div className='bg-white/95 backdrop-blur-xs border border-white/80 p-5 rounded-[22px] shadow-sm text-left flex flex-col gap-1.5'>
-                    <span className='text-[10px] text-indigo-500 font-semibold uppercase tracking-wider'>
-                      Candidate Response:
-                    </span>
-                    <p className='text-xs text-gray-700 leading-relaxed font-light'>
-                      "To reverse a linked list, we keep three pointers: prev, curr, and next. In each step, we save curr.next, point curr.next to prev, and advance pointers..."
-                    </p>
-                  </div>
+                {/* Floating Response Message Bubble */}
+                <div key={activeEvaluatorTab} className='relative z-10 w-full max-w-sm flex flex-col gap-3 animate-in fade-in duration-300'>
+                  
+                  {activeEvaluatorTab === 0 && (
+                    <div className='bg-white/95 backdrop-blur-xs border border-white/80 p-5 rounded-[22px] shadow-sm text-left flex flex-col gap-2'>
+                      <span className='text-[10px] text-indigo-500 font-semibold uppercase tracking-wider font-sans'>
+                        Coding Challenge: Two Sum
+                      </span>
+                      <pre className='text-[9px] bg-zinc-50 border border-zinc-150 p-2 rounded-lg text-zinc-700 overflow-x-auto font-mono leading-relaxed'>
+{`def two_sum(nums, target):
+    seen = {}
+    for idx, num in enumerate(nums):
+        diff = target - num
+        if diff in seen:
+            return [seen[diff], idx]
+        seen[num] = idx
+    return []`}
+                      </pre>
+                    </div>
+                  )}
+
+                  {activeEvaluatorTab === 1 && (
+                    <div className='bg-white/95 backdrop-blur-xs border border-white/80 p-5 rounded-[22px] shadow-sm text-left flex flex-col gap-1.5'>
+                      <span className='text-[10px] text-indigo-500 font-semibold uppercase tracking-wider font-sans'>
+                        Candidate Response:
+                      </span>
+                      <p className='text-xs text-gray-700 leading-relaxed font-light'>
+                        "To reverse a linked list, we keep three pointers: prev, curr, and next. In each step, we save curr.next, point curr.next to prev, and advance pointers..."
+                      </p>
+                    </div>
+                  )}
+
+                  {activeEvaluatorTab === 2 && (
+                    <div className='bg-white/95 backdrop-blur-xs border border-white/80 p-5 rounded-[22px] shadow-sm text-left flex flex-col gap-2.5'>
+                      <span className='text-[10px] text-indigo-500 font-semibold uppercase tracking-wider font-sans'>
+                        Grading Report Summary:
+                      </span>
+                      <div className='flex flex-col gap-2'>
+                        <div className='flex items-center justify-between text-[9px] text-gray-700 bg-zinc-50 border border-zinc-150 px-2.5 py-1 rounded shadow-3xs font-sans'>
+                          <span>Technical Depth</span>
+                          <span className='text-emerald-500 font-bold'>Excellent (9.5)</span>
+                        </div>
+                        <div className='flex items-center justify-between text-[9px] text-gray-700 bg-zinc-50 border border-zinc-150 px-2.5 py-1 rounded shadow-3xs font-sans'>
+                          <span>Communication</span>
+                          <span className='text-emerald-500 font-bold'>Clear (8.8)</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Status Capsule */}
                   <div className='self-center bg-white/95 backdrop-blur-xs border border-white/80 px-4 py-2 rounded-full shadow-xs flex items-center gap-2'>
@@ -404,7 +502,7 @@ function Home() {
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-emerald-500">
                       <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
                     </svg>
-                    <span className='text-[10px] text-gray-800 font-medium tracking-wide'>Evaluating logic accuracy...</span>
+                    <span className='text-[10px] text-gray-800 font-medium tracking-wide font-sans'>{evaluatorTabs[activeEvaluatorTab].status}</span>
                   </div>
                 </div>
               </div>
@@ -417,24 +515,27 @@ function Home() {
                   </h3>
                   
                   <div className='flex flex-col gap-5 border-t border-gray-100 pt-6'>
-                    <div className='flex flex-col gap-1.5 py-1.5 border-b border-gray-50'>
-                      <span className='text-xs font-semibold text-gray-400'>01. Runs mock sessions</span>
-                      <p className='text-xs md:text-sm text-gray-500 font-light leading-relaxed pl-5'>
-                        Guides you through standard coding and behavioral assessments.
-                      </p>
-                    </div>
-                    <div className='flex flex-col gap-1.5 py-1.5 border-b border-gray-50'>
-                      <span className='text-xs font-semibold text-emerald-600'>02. Gathers evaluation signals</span>
-                      <p className='text-xs md:text-sm text-gray-600 font-light leading-relaxed pl-5'>
-                        Captures key signals, logic weaknesses, and improvement goals directly from your response.
-                      </p>
-                    </div>
-                    <div className='flex flex-col gap-1.5 py-1.5'>
-                      <span className='text-xs font-semibold text-gray-400'>03. Turns sessions into offers</span>
-                      <p className='text-xs md:text-sm text-gray-500 font-light leading-relaxed pl-5'>
-                        Nudges you to target correct topics and build structural confidence.
-                      </p>
-                    </div>
+                    {evaluatorTabs.map((tab, idx) => {
+                      const isActive = activeEvaluatorTab === idx;
+                      return (
+                        <div 
+                          key={idx}
+                          onClick={() => setActiveEvaluatorTab(idx)}
+                          className='flex flex-col gap-1.5 py-1.5 cursor-pointer transition-all duration-300 border-b border-gray-50 last:border-b-0 group'
+                        >
+                          <span className={`text-xs font-semibold transition-colors duration-300 ${
+                            isActive ? 'text-emerald-600' : 'text-gray-400 group-hover:text-gray-600'
+                          }`}>
+                            {tab.number}. {tab.title}
+                          </span>
+                          <p className={`text-xs md:text-sm transition-colors duration-300 pl-5 font-light leading-relaxed ${
+                            isActive ? 'text-gray-700' : 'text-gray-400 group-hover:text-gray-500'
+                          }`}>
+                            {tab.description}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -442,7 +543,6 @@ function Home() {
             </div>
           </div>
 
-          {/* AI Onboarding/Resume Guide Section (Standard Split Layout) */}
           <div className='mb-32 '>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-12 items-center'>
               
@@ -454,24 +554,27 @@ function Home() {
                   </h3>
                   
                   <div className='flex flex-col gap-5 border-t border-gray-100 pt-6'>
-                    <div className='flex flex-col gap-1.5 py-1.5 border-b border-gray-50'>
-                      <span className='text-xs font-semibold text-gray-400'>01. Knows your background inside out</span>
-                      <p className='text-xs md:text-sm text-gray-500 font-light leading-relaxed pl-5'>
-                        Fully understands your stack, experience level, and project architecture.
-                      </p>
-                    </div>
-                    <div className='flex flex-col gap-1.5 py-1.5 border-b border-gray-50'>
-                      <span className='text-xs font-semibold text-orange-600'>02. Navigates directly inside your resume</span>
-                      <p className='text-xs md:text-sm text-gray-600 font-light leading-relaxed pl-5'>
-                        Audits your background and generates targeted interview questions for your projects.
-                      </p>
-                    </div>
-                    <div className='flex flex-col gap-1.5 py-1.5'>
-                      <span className='text-xs font-semibold text-gray-400'>03. Helps candidates reach their goals</span>
-                      <p className='text-xs md:text-sm text-gray-500 font-light leading-relaxed pl-5'>
-                        Aligns mock rounds with specific job descriptions and company cultures.
-                      </p>
-                    </div>
+                    {resumeTabs.map((tab, idx) => {
+                      const isActive = activeResumeTab === idx;
+                      return (
+                        <div 
+                          key={idx}
+                          onClick={() => setActiveResumeTab(idx)}
+                          className='flex flex-col gap-1.5 py-1.5 cursor-pointer transition-all duration-300 border-b border-gray-50 last:border-b-0 group'
+                        >
+                          <span className={`text-xs font-semibold transition-colors duration-300 ${
+                            isActive ? 'text-orange-600' : 'text-gray-400 group-hover:text-gray-600'
+                          }`}>
+                            {tab.number}. {tab.title}
+                          </span>
+                          <p className={`text-xs md:text-sm transition-colors duration-300 pl-5 font-light leading-relaxed ${
+                            isActive ? 'text-gray-700' : 'text-gray-400 group-hover:text-gray-500'
+                          }`}>
+                            {tab.description}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -486,42 +589,79 @@ function Home() {
                 />
 
                 {/* Mock UI Frame (Resume Mockup Layout) */}
-                <div className='relative z-10 bg-white/70 backdrop-blur-xs border border-white/60 w-[85%] rounded-2xl p-4 shadow-sm flex flex-col gap-3'>
+                <div key={activeResumeTab} className='relative z-10 bg-white/70 backdrop-blur-xs border border-white/60 w-[85%] rounded-2xl p-4 shadow-sm flex flex-col gap-3 animate-in fade-in duration-300'>
                   {/* Mock UI Header */}
                   <div className='flex items-center gap-2 pb-2 border-b border-gray-200/50'>
                     <div className='w-3 h-3 rounded-full bg-red-400/80' />
                     <div className='w-3 h-3 rounded-full bg-yellow-400/80' />
                     <div className='w-3 h-3 rounded-full bg-green-400/80' />
-                    <span className='text-[10px] text-gray-400 pl-2 font-mono'>resume_audit.pdf</span>
+                    <span className='text-[10px] text-gray-400 pl-2 font-mono transition-all duration-300'>{resumeTabs[activeResumeTab].file}</span>
                   </div>
 
-                  {/* Mock Resume Columns */}
-                  <div className='grid grid-cols-3 gap-2'>
-                    <div className='col-span-1 border-r border-gray-200/40 pr-2 flex flex-col gap-2'>
-                      <div className='h-3 w-12 bg-gray-400/35 rounded' />
-                      <div className='h-2 w-full bg-gray-300/30 rounded' />
-                      <div className='h-2 w-4/5 bg-gray-300/30 rounded' />
-                      <div className='h-3 w-14 bg-gray-400/35 rounded mt-2' />
-                      <div className='h-2 w-full bg-gray-300/30 rounded' />
+                  {/* Mock Resume Columns / Dynamic Content based on tab */}
+                  {activeResumeTab === 0 && (
+                    <div className='flex flex-col gap-2.5 py-1.5 animate-in fade-in duration-300'>
+                      <div className='text-[9px] text-gray-500 font-medium font-sans'>Identified Stack & Skills:</div>
+                      <div className='flex flex-wrap gap-1.5 max-w-[95%]'>
+                        {['React', 'Node.js', 'PostgreSQL', 'System Design', 'Redis', 'AWS', 'Docker'].map((skill, sIdx) => (
+                          <span key={sIdx} className='px-2 py-0.5 bg-zinc-100 border border-zinc-200/80 rounded-md text-[8px] text-zinc-700 font-semibold shadow-3xs font-sans'>
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                      <div className='h-1.5 w-full bg-zinc-200/40 rounded mt-1.5' />
+                      <div className='h-1.5 w-4/5 bg-zinc-200/40 rounded' />
                     </div>
-                    <div className='col-span-2 flex flex-col gap-2 pl-2'>
-                      <div className='h-3 w-20 bg-gray-400/35 rounded' />
-                      <div className='h-2 w-full bg-gray-300/30 rounded' />
-                      <div className='h-2 w-5/6 bg-gray-300/30 rounded' />
-                      <div className='h-3 w-24 bg-gray-400/35 rounded mt-2' />
-                      <div className='h-2 w-full bg-gray-300/30 rounded' />
+                  )}
+
+                  {activeResumeTab === 1 && (
+                    <div className='grid grid-cols-3 gap-2 py-1 animate-in fade-in duration-300'>
+                      <div className='col-span-1 border-r border-gray-200/40 pr-2 flex flex-col gap-2'>
+                        <div className='h-3 w-12 bg-gray-400/35 rounded' />
+                        <div className='h-1.5 w-full bg-zinc-200/40 rounded' />
+                        <div className='h-1.5 w-4/5 bg-zinc-200/40 rounded' />
+                      </div>
+                      <div className='col-span-2 flex flex-col gap-2 pl-2'>
+                        {/* Highlighted Project description */}
+                        <div className='border border-orange-200 bg-orange-50/50 p-1.5 rounded-lg flex flex-col gap-1.5 shadow-3xs relative overflow-hidden animate-pulse'>
+                          <div className='h-2 w-20 bg-orange-400/50 rounded' />
+                          <div className='h-1.5 w-full bg-orange-300/40 rounded' />
+                          <div className='h-1.5 w-5/6 bg-orange-300/40 rounded' />
+                        </div>
+                        <div className='h-3 w-20 bg-gray-400/35 rounded mt-1' />
+                        <div className='h-1.5 w-full bg-zinc-200/40 rounded' />
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {activeResumeTab === 2 && (
+                    <div className='flex flex-col gap-2.5 py-1.5 animate-in fade-in duration-300'>
+                      <div className='text-[9px] text-gray-500 font-medium font-sans flex items-center justify-between'>
+                        <span>Target Match & Rubrics:</span>
+                        <span className='text-emerald-600 font-bold bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded text-[8px] font-sans'>94% Fit</span>
+                      </div>
+                      <div className='flex flex-col gap-2 mt-1'>
+                        <div className='flex items-center justify-between text-[8px] text-gray-700 bg-zinc-50 border border-zinc-150 px-2 py-1 rounded shadow-3xs font-semibold font-sans'>
+                          <span>Netflix Leadership Guidelines</span>
+                          <span className='text-emerald-500 font-bold'>Aligned</span>
+                        </div>
+                        <div className='flex items-center justify-between text-[8px] text-gray-700 bg-zinc-50 border border-zinc-150 px-2 py-1 rounded shadow-3xs font-semibold font-sans'>
+                          <span>System Design Competency</span>
+                          <span className='text-emerald-500 font-bold'>Targeted</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Floating Cursor pointing to UI */}
-                  <div className='absolute top-[40%] left-[30%] z-20 flex items-start gap-1 transform translate-x-4 -translate-y-2 pointer-events-none'>
+                  <div className={`absolute z-20 flex items-start gap-1 transform translate-x-4 -translate-y-2 pointer-events-none transition-all duration-500 ${resumeTabs[activeResumeTab].cursorPos}`}>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-blue-500 drop-shadow-xs">
                       <path d="M1.5 1.5v11l3.5-3.5 3 5 1.5-1-3-5 5-.5-10-6z" fill="currentColor"/>
                     </svg>
                   </div>
 
                   {/* Floating Chat Helper Card inside Mock UI */}
-                  <div className='absolute bottom-[-15px] right-[10px] w-[80%] bg-white border border-gray-200/80 rounded-2xl p-3 shadow-md flex flex-col gap-2 z-20'>
+                  <div className='absolute bottom-[-15px] right-[10px] w-[80%] bg-white border border-gray-200/80 rounded-2xl p-3 shadow-md flex flex-col gap-2 z-20 transition-all duration-300'>
                     <div className='flex items-center gap-2 pb-1 border-b border-gray-50'>
                       <div className='w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center text-[10px] text-orange-600 font-semibold'>H</div>
                       <div className='flex flex-col'>
@@ -530,12 +670,12 @@ function Home() {
                       </div>
                     </div>
                     <div className='flex flex-col gap-1 text-[9px] leading-tight'>
-                      <div className='text-gray-500 italic'>How do I highlight my system design experience?</div>
-                      <div className='text-gray-800 font-medium'>First, add metrics on database scalability.</div>
+                      <div className='text-gray-500 italic transition-all duration-300'>{resumeTabs[activeResumeTab].question}</div>
+                      <div className='text-gray-800 font-medium transition-all duration-300'>{resumeTabs[activeResumeTab].answer}</div>
                     </div>
                     {/* Progress indicator */}
                     <div className='w-full bg-gray-100 h-1 rounded-full overflow-hidden mt-1'>
-                      <div className='w-2/5 bg-blue-500 h-full' />
+                      <div className={`bg-blue-500 h-full transition-all duration-500 ${resumeTabs[activeResumeTab].progress}`} />
                     </div>
                   </div>
 
@@ -637,6 +777,106 @@ function Home() {
                   </h4>
                   <p className='text-xs md:text-sm text-gray-500 font-light leading-relaxed'>
                     Adapts question depth and complexity in real-time based on your previous responses.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Services/Strategies Section (Three Pillar Cards) */}
+          <div className='mb-32 pt-16 border-t border-gray-100'>
+            {/* Header row */}
+            <div className='flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16'>
+              <div className='max-w-2xl flex flex-col gap-4'>
+                <span className='text-[10px] font-semibold text-gray-400 uppercase tracking-widest'>
+                  Services
+                </span>
+                <h2 className='font-serif text-3xl md:text-5xl text-black tracking-tight leading-tight'>
+                  Our approach to preparation is built on three main pillars.
+                </h2>
+                <p className='text-gray-500 text-xs md:text-sm font-light leading-relaxed max-w-xl'>
+                  Comprehensive, interactive training designed to build your professional confidence and land dream offers.
+                </p>
+              </div>
+
+              {/* Get Started Black Pill CTA Button */}
+              <button 
+                onClick={() => navigate('/interview')}
+                className='bg-black text-white px-6 py-3 rounded-full hover:opacity-90 transition text-xs font-semibold flex items-center gap-3 shrink-0 active:scale-95 shadow-sm cursor-pointer self-start md:self-auto'
+              >
+                Get Started
+                <span className='w-5 h-5 rounded-full bg-white text-black flex items-center justify-center text-[10px] font-bold'>
+                  ➔
+                </span>
+              </button>
+            </div>
+
+            {/* Three cards grid */}
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+              
+              {/* Card 1: Speed (Black Card) */}
+              <div className='bg-black text-white rounded-[32px] p-8 md:p-10 flex flex-col gap-12 shadow-sm transition duration-300 hover:shadow-lg'>
+                {/* Thin Asterisk SVG Icon */}
+                <div className='w-12 h-12 flex items-center justify-center text-white'>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+                    <line x1="12" y1="2" x2="12" y2="22"></line>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line>
+                  </svg>
+                </div>
+                
+                <div className='flex flex-col gap-4 mt-auto'>
+                  <h3 className='font-sans text-xl md:text-2xl font-semibold tracking-tight'>
+                    Speed
+                  </h3>
+                  <p className='text-gray-400 text-xs md:text-sm font-light leading-relaxed'>
+                    Get instant, comprehensive evaluations of your mock interview responses. No waiting for manual grader reviews.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 2: Research-based */}
+              <div className='bg-[#F2F0EF]/60 text-black rounded-[32px] p-8 md:p-10 flex flex-col gap-12 shadow-2xs border border-gray-100/50 transition duration-300 hover:shadow-xs'>
+                {/* Network Node SVG Icon */}
+                <div className='w-12 h-12 flex items-center justify-center text-gray-800'>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+                    <circle cx="12" cy="5" r="3" />
+                    <circle cx="5" cy="19" r="3" />
+                    <circle cx="19" cy="19" r="3" />
+                    <line x1="12" y1="8" x2="6.5" y2="16.5" />
+                    <line x1="12" y1="8" x2="17.5" y2="16.5" />
+                  </svg>
+                </div>
+                
+                <div className='flex flex-col gap-4 mt-auto'>
+                  <h3 className='font-sans text-xl md:text-2xl font-semibold tracking-tight text-gray-900'>
+                    Research-based
+                  </h3>
+                  <p className='text-gray-500 text-xs md:text-sm font-light leading-relaxed'>
+                    Built on active rubrics, technical patterns, and system design questions sourced directly from top-tier tech companies.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 3: Unbiased */}
+              <div className='bg-[#F2F0EF]/60 text-black rounded-[32px] p-8 md:p-10 flex flex-col gap-12 shadow-2xs border border-gray-100/50 transition duration-300 hover:shadow-xs'>
+                {/* Split grid SVG Icon */}
+                <div className='w-12 h-12 flex items-center justify-center text-gray-800'>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
+                    <rect x="3" y="3" width="7" height="18" rx="1.5" />
+                    <rect x="14" y="3" width="7" height="18" rx="1.5" />
+                    <line x1="12" y1="3" x2="12" y2="21" strokeDasharray="3 3" />
+                  </svg>
+                </div>
+                
+                <div className='flex flex-col gap-4 mt-auto'>
+                  <h3 className='font-sans text-xl md:text-2xl font-semibold tracking-tight text-gray-900'>
+                    Unbiased
+                  </h3>
+                  <p className='text-gray-500 text-xs md:text-sm font-light leading-relaxed'>
+                    Evaluate technical correctness, logical clarity, and communication depth objective of human assessor bias.
                   </p>
                 </div>
               </div>

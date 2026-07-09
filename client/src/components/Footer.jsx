@@ -3,17 +3,11 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
-    <footer className='w-full bg-white pt-10 pb-20 px-6 md:px-12 border-t border-gray-100 flex flex-col items-center gap-16'>
+    <footer className='w-full bg-white pt-10 pb-36 px-6 md:px-12 border-t border-gray-100 flex flex-col items-center gap-16'>
       
-      {/* Visual CTA Section (Reaching Hands background) */}
-      <div className='w-full max-w-7xl relative aspect-[21/9] md:aspect-[3/1] rounded-[32px] overflow-hidden flex flex-col items-center justify-center text-center p-8 border border-gray-100/50 shadow-2xs'>
-        {/* Hands Background Image */}
-        <img 
-          src='/assets/hands_graphic.png' 
-          alt="Hands Graphic" 
-          className='absolute inset-0 w-full h-full object-cover z-0 select-none pointer-events-none opacity-90'
-        />
-
+      {/* Visual CTA Section (Off-white background) */}
+      <div className='w-full max-w-7xl relative aspect-[21/9] md:aspect-[3/1] rounded-[32px] overflow-hidden flex flex-col items-center justify-center text-center p-8 border border-gray-100/50 bg-[#F2F0EF]/80 shadow-2xs'>
+        
         {/* Overlay Content */}
         <div className='relative z-10 flex flex-col items-center gap-5'>
           <h2 className='font-serif text-2xl md:text-4xl text-black tracking-tight leading-tight max-w-xl'>
