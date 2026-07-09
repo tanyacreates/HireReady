@@ -11,6 +11,8 @@ import InterviewHistory from './pages/InterviewHistory'
 import Pricing from './pages/Pricing'
 import InterviewReport from './pages/InterviewReport'
 import SharedReport from './pages/SharedReport'
+import PrivacyPolicy from './pages/PrvPolicy'
+import CookiePolicy from './pages/CokPolicy'
 import Lenis from 'lenis'
 
 export const ServerUrl = (import.meta.env.VITE_SERVER_URL || "http://localhost:8000").replace(/\/+$/, "")
@@ -55,6 +57,8 @@ function App() {
       <Route path='/pricing' element={<Pricing/>}/>
       <Route path='/report/:id' element={<InterviewReport/>}/>
       <Route path='/shared-report/:id' element={<SharedReport/>}/>
+      <Route path='/privacy' element={<PrivacyPolicy/>}/>
+      <Route path='/cookies' element={<CookiePolicy/>}/>
     </Routes>
   )
 }
