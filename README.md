@@ -2,7 +2,7 @@
 
 HireReady is a premium, state-of-the-art SaaS platform designed to help job candidates prepare for rigorous interview rounds. Powered by advanced AI agents, the platform conducts mock coding, system design, and behavioral simulations, providing detailed feedback reports, resume audits, and grading assessments in real-time.
 
-![HireReady Platform Preview](client/public/assets/readme.png)
+![HireReady Platform Preview](./client/public/assets/readme.png)
 
 ---
 
