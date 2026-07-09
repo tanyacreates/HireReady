@@ -87,3 +87,8 @@ To run the full stack in development mode:
 Legal documentation is fully integrated client-side:
 *   **Privacy Policy:** Access at `/privacy`
 *   **Cookie Policy:** Access at `/cookies`
+
+---
+
+## ⚖️ License
+This project is licensed under the [MIT License](LICENSE).
