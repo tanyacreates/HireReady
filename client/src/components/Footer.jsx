@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function Footer() {
+
   return (
     <footer className='w-full bg-white pt-10 pb-36 px-6 md:px-12 border-t border-gray-100 flex flex-col items-center gap-16'>
       
@@ -13,9 +14,6 @@ function Footer() {
           <h2 className='font-serif text-2xl md:text-4xl text-black tracking-tight leading-tight max-w-xl'>
             Give a white glove experience to every candidate
           </h2>
-          <button className='bg-black text-white px-6 py-2.5 rounded-full hover:opacity-90 transition text-sm font-semibold cursor-pointer active:scale-95 shadow-sm'>
-            Let's talk
-          </button>
         </div>
       </div>
 
@@ -35,15 +33,14 @@ function Footer() {
         <div className='lg:col-span-4 grid grid-cols-2 gap-8 w-full'>
           <div className='flex flex-col gap-3'>
             <span className='text-xs font-semibold text-gray-500 tracking-wider uppercase'>HireReady</span>
-            <Link to="/auth" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Sign in</Link>
-            <a href="#" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Contact us</a>
-            <a href="#" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Careers</a>
+            
+          
           </div>
           <div className='flex flex-col gap-3'>
             <span className='text-xs font-semibold text-gray-500 tracking-wider uppercase'>Legal</span>
             <Link to="/privacy" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Privacy policy</Link>
             <Link to="/cookies" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Cookie policy</Link>
-            <a href="#" className='text-xs md:text-sm font-semibold text-gray-800 hover:text-black transition-colors'>Responsible disclosure</a>
+           
           </div>
         </div>
       </div>

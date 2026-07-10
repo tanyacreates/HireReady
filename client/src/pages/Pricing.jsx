@@ -59,6 +59,11 @@ function Pricing() {
 
   const handlePayment = async (plan) => {
     try {
+      if (!window.Razorpay) {
+        alert("Razorpay SDK failed to load. Please refresh the page.");
+        return;
+      }
+
       setLoadingPlan(plan.id)
 
       const amount =  
@@ -99,6 +104,8 @@ function Pricing() {
     } catch (error) {
       console.log(error)
       setLoadingPlan(null);
+      const msg = error?.response?.data?.message || error.message || "Something went wrong"
+      alert(`Payment failed: ${msg}`)
     }
   }
 

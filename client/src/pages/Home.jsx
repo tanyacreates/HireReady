@@ -235,25 +235,21 @@ function Home() {
               Start Interview
             </motion.button>
 
-            <motion.button
-              onClick={() => {
-                if (!userData) {
-                  setShowAuth(true)
-                  return;
-                }
-                navigate("/history")
-              }}
-              whileHover={{ opacity: 0.9, scale: 1.02 }}
-              whileTap={{ opacity: 1, scale: 0.98 }}
-              className='bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2.5 rounded-full transition font-medium text-sm cursor-pointer'>
-              {userData ? "View History" : "Try for free"}
-            </motion.button>
+            {userData && (
+              <motion.button
+                onClick={() => navigate("/history")}
+                whileHover={{ opacity: 0.9, scale: 1.02 }}
+                whileTap={{ opacity: 1, scale: 0.98 }}
+                className='bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2.5 rounded-full transition font-medium text-sm cursor-pointer'>
+                View History
+              </motion.button>
+            )}
           </motion.div>
         </div>
       </div>
 
       {/* Full-width Smooth Wave Ribbon Animation */}
-      <div className='w-full h-[220px] md:h-[300px] relative overflow-hidden flex items-center justify-center -mt-14 mb-8'>
+      <div className='w-full h-[220px] md:h-[300px] relative overflow-hidden flex items-center justify-center -mt-14 mb-8 pointer-events-none'>
         <SmoothWave />
       </div>
 
@@ -320,7 +316,7 @@ function Home() {
               <p className='text-gray-500 text-xs md:text-sm font-light max-w-sm md:max-w-md leading-relaxed mb-3'>
                 Let our AI agent walk you through a simulated mock interview and real-time response grading.
               </p>
-              <button 
+              {/* <button 
                 onClick={() => {
                   if (!userData) {
                     setShowAuth(true);
@@ -331,7 +327,7 @@ function Home() {
                 className='bg-black text-white px-5 py-2.5 rounded-full hover:opacity-90 transition text-xs font-semibold flex items-center gap-2 active:scale-95 shadow-sm cursor-pointer'
               >
                 {/* Dots Symbol matching design */}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                {/* <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
                   <circle cx="2" cy="6" r="1.2" fill="currentColor"/>
                   <circle cx="6" cy="2" r="1.2" fill="currentColor"/>
                   <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
@@ -339,7 +335,7 @@ function Home() {
                   <circle cx="10" cy="6" r="1.2" fill="currentColor"/>
                 </svg>
                 Start demo
-              </button>
+              </button> */}
             </div>
           </div>
           
@@ -739,7 +735,13 @@ function Home() {
                       className='flex-1 pl-4 pr-2 py-2 text-xs md:text-sm text-gray-800 placeholder-gray-400 bg-transparent outline-hidden'
                     />
                     <button 
-                      onClick={() => navigate('/interview')}
+                      onClick={() => {
+                        if (!userData) {
+                          setShowAuth(true);
+                          return;
+                        }
+                        navigate('/interview');
+                      }}
                       className='bg-black text-white px-5 py-2.5 rounded-full hover:opacity-90 transition text-xs font-semibold shrink-0 cursor-pointer active:scale-95'
                     >
                       Create interviewer
@@ -802,7 +804,13 @@ function Home() {
 
               {/* Get Started Black Pill CTA Button */}
               <button 
-                onClick={() => navigate('/interview')}
+                onClick={() => {
+                  if (!userData) {
+                    setShowAuth(true);
+                    return;
+                  }
+                  navigate('/interview');
+                }}
                 className='bg-black text-white px-6 py-3 rounded-full hover:opacity-90 transition text-xs font-semibold flex items-center gap-3 shrink-0 active:scale-95 shadow-sm cursor-pointer self-start md:self-auto'
               >
                 Get Started

@@ -140,9 +140,6 @@ function Navbar() {
                         <button onClick={() => setShowAuth(true)} className='hover:text-black transition cursor-pointer font-medium text-gray-500 hover:text-black'>
                             Sign in
                         </button>
-                        <button onClick={() => setShowAuth(true)} className='bg-black hover:opacity-90 text-white px-5 py-2 rounded-full font-medium text-xs tracking-wide transition cursor-pointer'>
-                            Try for free
-                        </button>
                     </div>
                 )}
             </div>
