@@ -2,6 +2,7 @@ import Payment from "../models/payment.model.js";
 import User from "../models/user.model.js";
 import razorpay from "../services/razorpay.service.js";
 import crypto from "crypto"
+import { env } from "../config/env.js";
 
 export const createOrder = async (req,res) => {
     try {
@@ -31,7 +32,8 @@ export const createOrder = async (req,res) => {
 
     
     } catch (error) {
-         return res.status(500).json({message:`failed to create Razorpay order ${error}`})
+        console.error("Razorpay order error:", error)
+        return res.status(500).json({message:`failed to create Razorpay order: ${error?.message || JSON.stringify(error)}`})
     }
 }
 
@@ -45,7 +47,7 @@ export const verifyPayment = async (req,res) => {
       const body = razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
       .update(body)
       .digest("hex");
 

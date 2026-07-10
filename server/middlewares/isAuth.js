@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-
+import { env } from "../config/env.js";
 
 const isAuth = async (req,res,next) => {
     try {
@@ -8,7 +8,7 @@ const isAuth = async (req,res,next) => {
         if(!token){
             return res.status(400).json({message:"user does not have a token"})
         }
-        const verifyToken = jwt.verify(token , process.env.JWT_SECRET)
+        const verifyToken = jwt.verify(token , env.JWT_SECRET)
         
         if(!verifyToken){
             return res.status(400).json({message:"user does not have a valid token"})

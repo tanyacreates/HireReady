@@ -1,6 +1,7 @@
 import genToken from "../config/token.js"
 import User from "../models/user.model.js"
 
+
 const isProd = process.env.NODE_ENV === "production"
 
 // In production the frontend (Vercel) and backend are on different domains,
