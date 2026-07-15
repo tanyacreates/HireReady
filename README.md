@@ -72,7 +72,7 @@ To run the full stack in development mode:
     cd server
     npm run dev
     ```
-    *The server runs on port `6000` by default and connects to the database.*
+     *The server runs on port `8000` by default and connects to the database.*
 
 2.  **Start the frontend client:**
     ```bash
@@ -80,6 +80,34 @@ To run the full stack in development mode:
     npm run dev
     ```
     *The frontend hot-reloads and serves the app locally at `http://localhost:5173/`.*
+
+---
+### 🐳 Running with Docker (Alternative)
+
+If you have [Docker](https://www.docker.com/) installed, you can spin up the entire stack with a single command — no Node.js setup required.
+
+1. **Set up environment variables:**
+    ```bash
+    cp server/.env.example server/.env
+    # Fill in your own values in server/.env
+    ```
+
+2. **Build and start all containers:**
+    ```bash
+    docker-compose up --build
+    ```
+
+    | Service | URL |
+    |---|---|
+    | Frontend | http://localhost |
+    | Backend API | http://localhost:8000 |
+
+3. **Stop the containers:**
+    ```bash
+    docker-compose down
+    ```
+
+> **Note:** The Docker setup uses a multi-stage build — the React app is compiled with Node.js and served via Nginx, while the Express server runs in a separate container.
 
 ---
 
