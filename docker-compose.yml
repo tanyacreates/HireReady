@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  # ── Backend ──────────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: interviewiq_server
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./server/.env
+    environment:
+      - CLIENT_URL=http://localhost
+    restart: unless-stopped
+
+  # ── Frontend ─────────────────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: interviewiq_client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: unless-stopped
